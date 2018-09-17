@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include oberoi_erpnext *.css
+recursive-include oberoi_erpnext *.csv
+recursive-include oberoi_erpnext *.html
+recursive-include oberoi_erpnext *.ico
+recursive-include oberoi_erpnext *.js
+recursive-include oberoi_erpnext *.json
+recursive-include oberoi_erpnext *.md
+recursive-include oberoi_erpnext *.png
+recursive-include oberoi_erpnext *.py
+recursive-include oberoi_erpnext *.svg
+recursive-include oberoi_erpnext *.txt
+recursive-exclude oberoi_erpnext *.pyc
