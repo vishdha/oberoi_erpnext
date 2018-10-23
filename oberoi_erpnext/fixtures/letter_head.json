@@ -9,5 +9,38 @@
   "letter_head_name": "Oberoi", 
   "modified": "2018-09-24 14:04:21.744013", 
   "name": "Oberoi"
+ }, 
+ {
+  "content": "<p style=\"font-size: 14px; text-align: center; font-weight: 700;\">Oberoi Thermit Pvt Ltd</p>                    <p style=\"text-align: center;\" class=\"font-size-10\">Corp. Office: A-10, Sector 59, Noida - 201301, India</p>                    <p style=\"text-align: center;\" class=\"font-size-10\">railwelding@oberoithermit.com | <a href=\"http://www.oberoithermit.com\">www.oberoithermit.com</a> | +91 120 4010000</p>                    <p style=\"text-align: center;\" class=\"font-size-10\">GSTIN: 09AAACO1387P1ZV </p>", 
+  "disabled": 0, 
+  "docstatus": 0, 
+  "doctype": "Letter Head", 
+  "footer": "", 
+  "is_default": 0, 
+  "letter_head_name": "Oberoi Sales Invoice Noida", 
+  "modified": "2018-10-23 13:16:20.555460", 
+  "name": "Oberoi Sales Invoice Noida"
+ }, 
+ {
+  "content": "<p style=\"font-size: 14px; text-align: center; font-weight: 700;\">Oberoi Thermit Pvt Ltd</p>                    <p style=\"text-align: center;\" class=\"font-size-10\">Plot No. 3, Sector 8B,IIE,Sidcul,Haridwar-249403 (Uttrakhand),India</p>                    <p style=\"text-align: center;\" class=\"font-size-10\">railwelding@oberoithermit.com | <a href=\"http://www.oberoithermit.com\">www.oberoithermit.com</a> | +91 120 4010000</p>                    <p style=\"text-align: center;\" class=\"font-size-10\">GSTIN: 05AAACO1387P1Z3  </p>", 
+  "disabled": 0, 
+  "docstatus": 0, 
+  "doctype": "Letter Head", 
+  "footer": "", 
+  "is_default": 0, 
+  "letter_head_name": "Oberoi Sales Invoice Unit I HWR", 
+  "modified": "2018-10-23 13:16:38.815907", 
+  "name": "Oberoi Sales Invoice Unit I HWR"
+ }, 
+ {
+  "content": "<p style=\"font-size: 14px; text-align: center; font-weight: 700;\">Oberoi Thermit Pvt Ltd</p>\n                    <p style=\"text-align: center;\" class=\"font-size-10\">Plot No. 33, Sector 11,IIE,Sidcul,Haridwar-249403 (Uttrakhand), India</p>\n                    <p style=\"text-align: center;\" class=\"font-size-10\">railwelding@oberoithermit.com | <a href=\"http://www.oberoithermit.com\">www.oberoithermit.com</a> | +91 120 4010000</p>\n                    <p style=\"text-align: center;\" class=\"font-size-10\">GSTIN: 05AAACO1387P1Z3 </p>", 
+  "disabled": 0, 
+  "docstatus": 0, 
+  "doctype": "Letter Head", 
+  "footer": "", 
+  "is_default": 0, 
+  "letter_head_name": "Oberoi Sales Invoice Unit II HWR", 
+  "modified": "2018-10-23 13:16:00.877989", 
+  "name": "Oberoi Sales Invoice Unit II HWR"
  }
 ]

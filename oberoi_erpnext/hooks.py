@@ -120,7 +120,7 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "oberoi_erpnext.event.get_events"
 # }
 
-fixtures = [{"dt": "Print Format", "filters": [["name", "in", ["Oberoi"]]]},
-            {"dt": "Letter Head", "filters": [["name", "in", ["Oberoi"]]]},
+fixtures = [{"dt": "Print Format", "filters": [["name", "in", ["Oberoi", "Oberoi Quotation", "Oberoi SI Revised" ]]]},
+            {"dt": "Letter Head", "filters": [["name", "in", ["Oberoi", "Oberoi Sales Invoice Noida","Oberoi Sales Invoice Unit I HWR", "Oberoi Sales Invoice Unit II HWR"]]]},
             {"dt": "Terms and Conditions", "filters": [["name", "in", ["Oberoi terms and condition"]]]}]
 
