@@ -11,10 +11,11 @@ def execute(filters=None):
 	columns = get_columns(filters)
 	entries = get_entries(filters)
 	data = []
-
+        for x in xrange(1,10):
+            print("entries", entries)
 	for d in entries:
 		data.append([
-            d.transaction_date, d.name, d.qty
+            d.transaction_date, d.name, d.item_name, d.qty
         ])
 
 	return columns, data
@@ -23,24 +24,28 @@ def get_columns(filters):
     return [
         _("Date") + ":Date:80",
         _("Sales Order") + ":Link/Sales Order:100",
+        _("Portions") + ":Link/Sales Order:100",
         _("Portions in order") + ":Link/:150",
+        _("Portions to dispatched") + ":Link/:180",
+        _("Portions balance to dispatch") + ":Int:200",
         _("Portions executed") + ":Link/:150",
-        _("Portions balance to execute") + ":Link/:180",
-		_("Portions to dispatched") + ":Link/:180",
-        _("Portions balance to dispatch") + ":Int:200"
+        _("Portions balance to execute") + ":Link/:180"
         ]
 
 def get_entries(filters):
     date_field = "transaction_date"
     conditions, values = get_conditions(filters, date_field)
+
+    for x in xrange(1,10):
+        print("sss", conditions, values)
     entries = frappe.db.sql("""
         select
-            vt.%s, vt.name, soi.qty
+            so.%s, so.name, soi.item_name, soi.qty
         from
-            `tabSales Order` vt INNER JOIN `tabSales Order Item` soi
-			ON soi.parent = vt.name
+            `tabSales Order` so INNER JOIN `tabSales Order Item` soi
+			ON soi.parent = so.name
 		where 
-			vt.company = '%s'
+			so.company = '%s'
 
 			%s order by transaction_date 
         """ %(date_field, filters['company'], conditions), tuple(values),
@@ -56,11 +61,11 @@ def get_conditions(filters, date_field):
  
 
     if filters.get("from_date"):
-        conditions.append("vt.{0}>=%s".format(date_field))
+        conditions.append("so.{0}>=%s".format(date_field))
         values.append(filters["from_date"])
 
     if filters.get("to_date"):
-        conditions.append("vt.{0}<=%s".format(date_field))
+        conditions.append("so.{0}<=%s".format(date_field))
         values.append(filters["to_date"])
 
     return "and ".join(conditions), values
