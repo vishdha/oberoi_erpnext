@@ -498,19 +498,19 @@ def make_delivery_note(source_name, target_doc=None):
 				or item.selling_cost_center \
 				or frappe.db.get_value("Item Group", item.item_group, "default_cost_center")
 
-	target_doc = get_mapped_doc("Sales Order", source_name, {
-		"Sales Order": {
+	target_doc = get_mapped_doc("Proforma Invoice", source_name, {
+		"Proforma Invoice": {
 			"doctype": "Delivery Note",
 			"validation": {
 				"docstatus": ["=", 1]
 			}
 		},
-		"Sales Order Item": {
+		"Proforma Invoice Item": {
 			"doctype": "Delivery Note Item",
 			"field_map": {
 				"rate": "rate",
-				"name": "so_detail",
-				"parent": "against_sales_order",
+				"name": "pi_detail",
+				"parent": "against_proforma_invoice",
 			},
 			"postprocess": update_item,
 			"condition": lambda doc: abs(doc.delivered_qty) < abs(doc.qty) and doc.delivered_by_supplier!=1
@@ -557,8 +557,8 @@ def make_sales_invoice(source_name, target_doc=None, ignore_permissions=False):
 			or item.selling_cost_center \
 			or frappe.db.get_value("Item Group", item.item_group, "default_cost_center")
 
-	doclist = get_mapped_doc("Sales Order", source_name, {
-		"Sales Order": {
+	doclist = get_mapped_doc("Proforma Invoice", source_name, {
+		"Proforma Invoice": {
 			"doctype": "Sales Invoice",
 			"field_map": {
 				"party_account_currency": "party_account_currency"
@@ -567,11 +567,11 @@ def make_sales_invoice(source_name, target_doc=None, ignore_permissions=False):
 				"docstatus": ["=", 1]
 			}
 		},
-		"Sales Order Item": {
+		"Proforma Invoice Item": {
 			"doctype": "Sales Invoice Item",
 			"field_map": {
-				"name": "so_detail",
-				"parent": "sales_order",
+				"name": "pi_detail",
+				"parent": "proforma_invoice",
 			},
 			"postprocess": update_item,
 			"condition": lambda doc: doc.qty and (doc.base_amount==0 or abs(doc.billed_amt) < abs(doc.amount))

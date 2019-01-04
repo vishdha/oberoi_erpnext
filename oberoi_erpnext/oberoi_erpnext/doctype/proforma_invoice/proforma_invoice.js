@@ -354,14 +354,14 @@ erpnext.selling.SalesOrderController = erpnext.selling.SellingController.extend(
 
 	make_delivery_note: function() {
 		frappe.model.open_mapped_doc({
-			method: "erpnext.selling.doctype.sales_order.sales_order.make_delivery_note",
+			method: "oberoi_erpnext.oberoi_erpnext.doctype.proforma_invoice.proforma_invoice.make_delivery_note",
 			frm: me.frm
 		})
 	},
 
 	make_sales_invoice: function() {
 		frappe.model.open_mapped_doc({
-			method: "erpnext.selling.doctype.sales_order.sales_order.make_sales_invoice",
+			method: "oberoi_erpnext.oberoi_erpnext.doctype.proforma_invoice.proforma_invoice.make_sales_invoice",
 			frm: this.frm
 		})
 	},
