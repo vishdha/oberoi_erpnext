@@ -192,7 +192,9 @@ class ReceivablePayableReport(object):
 		if gl_entries_data:
 			voucher_nos = [d.voucher_no for d in gl_entries_data] or []
 			dn_details = get_dn_details(args.get("party_type"), voucher_nos)
-			voucher_details = get_voucher_details(args.get("party_type"), voucher_nos, dn_details)
+			so_details = get_so_details(args.get("party_type"), voucher_nos)
+			pi_details = get_pi_details(args.get("party_type"), voucher_nos)
+			voucher_details = get_voucher_details(args.get("party_type"), voucher_nos, dn_details, so_details, pi_details)
 
 		for gle in gl_entries_data:
 			if self.is_receivable_or_payable(gle, dr_or_cr, future_vouchers):
@@ -261,6 +263,7 @@ class ReceivablePayableReport(object):
 						# Delivery Note
 						row += [voucher_details.get(gle.voucher_no, {}).get("delivery_note")]
 
+
 					# customer territory / supplier type
 					if args.get("party_type") == "Customer":
 						row += [self.get_territory(gle.party), self.get_customer_group(gle.party)]
@@ -268,6 +271,9 @@ class ReceivablePayableReport(object):
 						row += [self.get_supplier_type(gle.party)]
 
 					row.append(gle.remarks)
+					if args.get('party_type') == 'Customer':						# Delivery Note
+						row += [voucher_details.get(gle.voucher_no, {}).get("sales_order")]
+						row += [voucher_details.get(gle.voucher_no, {}).get("proforma_invoice")]
 					data.append(row)
 
 		return data
@@ -532,9 +538,69 @@ def get_dn_details(party_type, voucher_nos):
 			else:
 				dn_details.setdefault(si.parent, si.dn)
 
-	return dn_details
 
-def get_voucher_details(party_type, voucher_nos, dn_details):
+def get_so_details(party_type, voucher_nos):
+	so_details = frappe._dict()
+
+	if party_type == "Customer":
+		for si in frappe.db.sql("""
+			select
+				parent, GROUP_CONCAT(sales_order SEPARATOR ', ') as so
+			from
+				`tabSales Invoice Item`
+			where
+				docstatus=1 and sales_order is not null and sales_order != ''
+				and parent in (%s) group by parent
+			""" %(','.join(['%s'] * len(voucher_nos))), tuple(voucher_nos) , as_dict=1):
+			so_details.setdefault(si.parent, si.so)
+
+		for si in frappe.db.sql("""
+			select
+				sales_order as parent, GROUP_CONCAT(parent SEPARATOR ', ') as so
+			from
+				`tabSales Invoice Item`
+			where
+				docstatus=1 and sales_order is not null and sales_order != ''
+				and sales_order in (%s)
+				group by sales_order
+			""" %(','.join(['%s'] * len(voucher_nos))), tuple(voucher_nos) , as_dict=1):
+			if si.parent in so_details:
+				so_details[si.parent] += ', %s' %(si.so)
+			else:
+				so_details.setdefault(si.parent, si.so)
+
+def get_pi_details(party_type, voucher_nos):
+	pi_details = frappe._dict()
+
+	if party_type == "Customer":
+		for si in frappe.db.sql("""
+			select
+				parent, GROUP_CONCAT(proforma_invoice SEPARATOR ', ') as pi
+			from
+				`tabSales Invoice Item`
+			where
+				docstatus=1 and proforma_invoice is not null and proforma_invoice != ''
+				and parent in (%s) group by parent
+			""" %(','.join(['%s'] * len(voucher_nos))), tuple(voucher_nos) , as_dict=1):
+			pi_details.setdefault(si.parent, si.pi)
+
+		for si in frappe.db.sql("""
+			select
+				against_sales_invoice as parent, GROUP_CONCAT(parent SEPARATOR ', ') as pi
+			from
+				`tabDelivery Note Item`
+			where
+				docstatus=1 and against_sales_invoice is not null and against_sales_invoice != ''
+				and against_sales_invoice in (%s)
+				group by against_sales_invoice
+			""" %(','.join(['%s'] * len(voucher_nos))), tuple(voucher_nos) , as_dict=1):
+			if si.parent in pi_details:
+				pi_details[si.parent] += ', %s' %(si.pi)
+			else:
+				pi_details.setdefault(si.parent, si.pi)
+
+
+def get_voucher_details(party_type, voucher_nos, dn_details, so_details, pi_details):
 	voucher_details = frappe._dict()
 
 	if party_type == "Customer":
@@ -542,6 +608,8 @@ def get_voucher_details(party_type, voucher_nos, dn_details):
 			from `tabSales Invoice` where docstatus=1 and name in (%s)
 			""" %(','.join(['%s'] *len(voucher_nos))), (tuple(voucher_nos)), as_dict=1):
 				si['delivery_note'] = dn_details.get(si.name)
+				si['sales_order'] = so_details.get(si.name)
+				si['proforma_invoice'] = pi_details.get(si.name)
 				voucher_details.setdefault(si.name, si)
 
 	if party_type == "Supplier":
