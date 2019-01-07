@@ -2,41 +2,21 @@ from frappe import _
 
 def get_data():
 	return {
-		'fieldname': 'sales_order',
+		'fieldname': 'proforma_invoice',
 		'non_standard_fieldnames': {
-			'Delivery Note': 'against_sales_order',
+			'Delivery Note': 'agianst_proforma_invoice',
 			'Journal Entry': 'reference_name',
 			'Payment Entry': 'reference_name',
 			'Payment Request': 'reference_name',
 			'Subscription': 'reference_document',
 		},
 		'internal_links': {
-			'Quotation': ['items', 'prevdoc_docname']
+			'Sales Order': ['items', 'prevdoc_docname']
 		},
 		'transactions': [
 			{
 				'label': _('Fulfillment'),
-				'items': ['Sales Invoice', 'Delivery Note']
-			},
-			{
-				'label': _('Purchasing'),
-				'items': ['Material Request', 'Purchase Order']
-			},
-			{
-				'label': _('Projects'),
-				'items': ['Project']
-			},
-			{
-				'label': _('Manufacturing'),
-				'items': ['Production Order']
-			},
-			{
-				'label': _('Reference'),
-				'items': ['Quotation', 'Subscription']
-			},
-			{
-				'label': _('Payment'),
-				'items': ['Payment Entry', 'Payment Request', 'Journal Entry']
-			},
+				'items': ['Sales Order','Sales Invoice','Delivery Note']
+			}
 		]
 	}
