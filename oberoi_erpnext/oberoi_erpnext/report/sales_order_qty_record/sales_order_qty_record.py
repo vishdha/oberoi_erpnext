@@ -46,7 +46,7 @@ def get_entries(filters):
 			ON soi.parent = so.name INNER JOIN `tabDelivery Note Item` dni 
             ON dni.against_sales_order=so.name
 		where 
-			so.company = '%s' AND so.docstatus= 1
+			so.company = '%s' AND so.docstatus= 1 AND dni.docstatus = 1
 
 			%s order by transaction_date 
         """ %(date_field, filters['company'], conditions), tuple(values),
