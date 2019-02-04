@@ -539,6 +539,8 @@ def get_dn_details(party_type, voucher_nos):
 				dn_details.setdefault(si.parent, si.dn)
 
 
+	return dn_details
+
 def get_so_details(party_type, voucher_nos):
 	so_details = frappe._dict()
 
@@ -568,6 +570,8 @@ def get_so_details(party_type, voucher_nos):
 				so_details[si.parent] += ', %s' %(si.so)
 			else:
 				so_details.setdefault(si.parent, si.so)
+
+	return so_details
 
 def get_pi_details(party_type, voucher_nos):
 	pi_details = frappe._dict()
@@ -599,6 +603,7 @@ def get_pi_details(party_type, voucher_nos):
 			else:
 				pi_details.setdefault(si.parent, si.pi)
 
+	return pi_details
 
 def get_voucher_details(party_type, voucher_nos, dn_details, so_details, pi_details):
 	voucher_details = frappe._dict()
